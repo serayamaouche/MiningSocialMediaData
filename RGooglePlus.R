@@ -1,26 +1,41 @@
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Script File: GoogleScholar2R.R.R  
-# Date of creation: 12 Feb 2017
+# Script File: RGooglePlus.R  
+# Date of creation: 12 Nov  2016
 # Date of last modification: 25 Feb 2017
 # Author: Seraya Maouche <seraya.maouche@iscb.org>
-# Short Description: This script provides functionalities to access citation 
-#                     data from Google Scholar
+# Short Description: This script provides an interface to Google+ API
 #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-# Installing depending packages
-requiredPackages <- c("scholar","ggplot2","dplyr","stringr",
-                       "R.cache","httr","rvest","xml2")
-install.packages(requiredPackages)
+# Load required packages
+library(RCurl)
 
-
-#********************** Installing scholar from CRAN
-# install.packages("scholar")
+#********************** Installing plusser package from CRAN
+# install.packages("plusser")
 #
-#********************** Installing scholar from github
-#if (!require("devtools")) install.packages("devtools")
-# devtools::install_github("jkeirstead/scholar")
-# https://github.com/jkeirstead
 
 #********************** Load library
-library(scholar)
-library(ggplot2)
+library(plusser)
+help(plusser)
+
+# Sets an API key for the Google+ API
+myKey = "GooglePlus_API_key"
+options(RCurlOptions = list(cainfo = system.file("CurlSSL", "cacert.pem", package = "RCurl")))
+setAPIkey(myKey)
+# [1] TRUE
+
+# harvestProfile(): Retrieve the profile of Google+ users
+myProfile=harvestProfile("+googleplus", parseFun = parseProfile)
+
+## harvestActivity(): Retrieve the users that acted on a G+ post
+# This function returns a (character) vector of Google+ user IDs.
+# kind denotes the kind of person to be retrieved: c("plusoners", "resharers"),
+users.p <- harvestActivity(myKey, "plusoners") 
+
+# harvestPage(): Retrieve the posts of a user’s G+ page
+# This function retrieves the most recent posts that a user put on his page. Google calls this ‘listing
+# activities‘.
+myPosts.df <- harvestPage("115484368398593587193")
+gPosts.df  <- harvestPage("+google", results=20)
+
+# Searching for Google+ Posts
+searchPost("#genomics")
