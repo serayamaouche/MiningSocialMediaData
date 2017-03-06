@@ -1,3 +1,3 @@
 # MiningSocialMediaData
 
-Google+  : (My tutorial: )[https://github.com/serayamaouche/MiningSocialMediaData/blob/master/RGooglePlus.R]
+Google+  : [https://github.com/serayamaouche/MiningSocialMediaData/blob/master/RGooglePlus.R](My tutorial: )
